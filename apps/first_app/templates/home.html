@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    {% load staticfiles %}
+        <link rel="stylesheet" href="{% static '../static/styles.css' %}" />
+        <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap-theme.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+  </head>
+  <body>
+
+
+
+    <div class="container">
+      <div class="navbar navbar-light bg-faded">
+        <span class="navbar-text">
+          {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+              <li {% if message.tags %} class="{{message.tags}}"{% endif %}>{{message}}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        </span>
+        <a href="{% url 'main:logout'%}" style="float:right">Logout</a>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+          <h2>Hello, {{request.session.name}}!</h2><br /><br />
+          <h4><u>Here is the list of your friends:</u></h4><br />
+          {% if friends %}
+          <table class="table table-striped">
+
+            <thead style="background-color: #4CAF50;color: white;">
+              <tr>
+                <th>Alias</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for f in friends %}
+              <tr>
+                <td>{{ f.name }}</td>
+                <td><a href="/user/{{ f.id }}" class="btn btn-primary">View Profile</a>    <a href="/deletefriend/{{ f.id }}" class="btn btn-danger">Delete Friend</a></td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+            {% else %}
+            <div class="alert alert-warning" role="alert">
+            <h3>Uh Oh! You don't have any friends yet.</h3>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <hr />
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+        <h4><u>Other Users not on your friend's list:</u></h4>
+        <table class="table table-striped">
+        {% if notfriends %}
+          <thead style="background-color: #4CAF50;color: white;">
+            <tr>
+              <th>Alias</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in notfriends %}
+            <tr>
+              <td><a href="/user/{{ user.id }}">{{ user.name }}</a></td>
+              <td><a href="/addfriend/{{user.id}}" class="btn btn-info">Add Friend</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+body{
+    width: 960px;
+    height: auto;
+    margin: 0 auto;
+    font-family: 'Roboto Slab', serif;
+}
+
+header{
+    margin-bottom: 20px;
+}
