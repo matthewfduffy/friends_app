@@ -4,8 +4,8 @@ import re
 import bcrypt
 
 class UserManager(models.Manager):
-    def name_invalid(self, name):
-        if not len(name) < 2 and re.search(r'^[a-zA-Z]+$', name):
+    def name_invalid(self, first_name):
+        if not len(first_name) < 2 and re.search(r'^[a-zA-Z]+$', first_name):
             return False
         else:
             return True
@@ -29,7 +29,7 @@ class UserManager(models.Manager):
         errors = []
         if not username:
             errors.append("Alias field must not be empty")
-        if self.name_invalid(name):
+        if self.name_invalid(first_name):
             errors.append("Name must be more than two characters and only letters")
         if self.email_invalid(email):
             errors.append("Invalid email")
